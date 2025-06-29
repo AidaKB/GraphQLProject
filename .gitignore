@@ -1,0 +1,45 @@
+# Build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ASP.NET Secrets folder (local dev secrets)
+**/appsettings.Development.json
+
+# Visual Studio Code settings
+.vscode/
+
+# Rider settings
+.idea/
+
+# Logs
+*.log
+
+# Database (if dumped locally)
+*.bson
+*.bak
+
+# Node modules (if frontend or scripts present)
+node_modules/
+
+# Deployment artifacts
+*.publish/
+.publish/
+
+# Heroku build artifacts
+heroku-build/
+
+# dotenv files (if used)
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+.vs/
+
