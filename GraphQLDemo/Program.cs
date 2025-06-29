@@ -1,8 +1,11 @@
-using GraphQLDemo.Schema;
+using GraphQLDemo.Schema.Mutation;
+using GraphQLDemo.Schema.Query;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddGraphQLServer().AddQueryType<Query>();
+builder.Services.AddGraphQLServer()
+   .AddQueryType<Query>()
+   .AddMutationType<Mutation>();
 
 var app = builder.Build();
 
