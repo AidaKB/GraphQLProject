@@ -1,4 +1,8 @@
-﻿namespace GraphQLDemo.Schema.Mutation
+﻿using GraphQLDemo.Schema.Subscription;
+using HotChocolate.Subscriptions;
+using System.Threading.Tasks;
+
+namespace GraphQLDemo.Schema.Mutation
 {
     public class Mutation
     {
@@ -7,7 +11,7 @@
         {
             _courses = new List<CourseResult>();
         }
-        public CourseResult CreateCourse(CourseInputType courseInputType)
+        public async Task<CourseResult> CreateCourse(CourseInputType courseInputType, [Service] ITopicEventSender topicEventSender)
         {
             var courseResult = new CourseResult
             {
@@ -17,9 +21,10 @@
                 InstructorId = courseInputType.InstructorId
             };
             _courses.Add(courseResult);
+            await topicEventSender.SendAsync("CourseCreated", courseResult);
             return courseResult;
         }
-        public CourseResult UpdateCourse(Guid id,CourseInputType courseInputType)
+        public async Task<CourseResult> UpdateCourse(Guid id,CourseInputType courseInputType , [Service] ITopicEventSender topicEventSender)
         {
             var courseResult = _courses.FirstOrDefault(c => c.Id == id);
 
@@ -30,6 +35,10 @@
             courseResult.Name = courseInputType.Name;
             courseResult.Subject = courseInputType.Subject;
             courseResult.InstructorId = courseInputType.InstructorId;
+
+            var updateCourseTopic = $"{courseResult.Id}_CourseUpdated";
+            await topicEventSender.SendAsync(updateCourseTopic, courseResult);
+
             return courseResult;
         }
         public bool DeleteCourse(Guid id)
