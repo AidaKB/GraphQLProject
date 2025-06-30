@@ -1,13 +1,7 @@
-﻿namespace GraphQLDemo.Schema
+﻿using GraphQLDemo.Models;
+
+namespace GraphQLDemo.Schema
 {
-    public enum Subject
-    {
-        Mathematics,
-        Science,
-        Literature,
-        History,
-        Art
-    }
     public class CourseType
     {
         public Guid Id { get; set; }

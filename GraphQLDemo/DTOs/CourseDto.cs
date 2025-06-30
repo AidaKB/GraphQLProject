@@ -1,12 +1,17 @@
 ﻿using GraphQLDemo.Models;
+using GraphQLDemo.Schema;
 
-namespace GraphQLDemo.Schema.Mutation
+namespace GraphQLDemo.DTOs
 {
-    public class CourseResult
+    public class CourseDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Subject Subject { get; set; }
+
+        public InstructorDto Instructor { get; set; }
         public Guid InstructorId { get; set; }
+
+        public StudentDto Students { get; set; }
     }
 }
