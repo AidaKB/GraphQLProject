@@ -17,6 +17,7 @@ namespace GraphQLDemo.Schema.Mutation
         {
             var courseDTO = new CourseDto
             {
+                Id = Guid.NewGuid(),
                 Name = courseInputType.Name,
                 Subject = courseInputType.Subject,
                 InstructorId = courseInputType.InstructorId,

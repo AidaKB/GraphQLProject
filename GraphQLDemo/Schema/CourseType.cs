@@ -10,7 +10,7 @@ namespace GraphQLDemo.Schema
 
         [GraphQLNonNullType]
         public InstructorType Instructor { get; set; }
-        public IEnumerable<StudentType> Students { get; set; }
+        public IEnumerable<StudentType>? Students { get; set; }
         public string Description()
         {
             return $"{Name} is a course that the subject of that is {Subject}";

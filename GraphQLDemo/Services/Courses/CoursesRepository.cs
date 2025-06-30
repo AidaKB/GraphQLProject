@@ -15,8 +15,10 @@ namespace GraphQLDemo.Services.Courses
         
         public async Task<CourseDto> Create(CourseDto course)
         {
+
             using (SchoolDbContext context = contextFactory.CreateDbContext())
             {
+                var instructors = await context.Instructors.ToListAsync();
                 context.Courses.Add(course);
                 await context.SaveChangesAsync();
 
