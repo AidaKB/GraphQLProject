@@ -1,4 +1,5 @@
 ﻿using GraphQLDemo.DTOs;
+using GraphQLDemo.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -12,7 +13,29 @@ namespace GraphQLDemo.Services.Courses
         {
             this.contextFactory = contextFactory;
         }
-        
+        public async Task<IEnumerable<CourseDto>> GetCourses()
+        {
+            using (var context = contextFactory.CreateDbContext())
+            {
+                return await context.Courses
+                    .Include(c => c.Instructor)
+                    .Include(c => c.Students)
+                    .ToListAsync();
+            }
+
+        }
+        public async Task<CourseDto?> GetCourseByIdAsync(Guid id)
+        {
+
+            using (var context = contextFactory.CreateDbContext())
+            {
+                return await context.Courses
+                    .Include(c => c.Instructor)
+                    .Include(c => c.Students)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+            }
+        }
+
         public async Task<CourseDto> Create(CourseDto course)
         {
 

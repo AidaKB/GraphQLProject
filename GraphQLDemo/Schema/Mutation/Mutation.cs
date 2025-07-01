@@ -60,7 +60,14 @@ namespace GraphQLDemo.Schema.Mutation
         }
         public async Task<bool> DeleteCourse(Guid id)
         {
-            return await _coursesRepository.Delete(id);
+            try
+            {
+                return await _coursesRepository.Delete(id);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
     }

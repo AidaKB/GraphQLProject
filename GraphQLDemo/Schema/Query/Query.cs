@@ -1,46 +1,27 @@
 ﻿using Bogus;
+using GraphQLDemo.DTOs;
 using GraphQLDemo.Models;
+using GraphQLDemo.Services.Courses;
 
 namespace GraphQLDemo.Schema.Query
 {
     public class Query
     {
-        private readonly Faker<InstructorType> _instructorFaker;
-        private readonly Faker<StudentType> _studentFaker;
-        private readonly Faker<CourseType> _courseFaker;
-        public Query()
+        private readonly CoursesRepository coursesRepository;
+
+        public Query(CoursesRepository coursesRepository)
         {
-            _instructorFaker = new Faker<InstructorType>()
-                .RuleFor(i => i.Id, f => Guid.NewGuid())
-                .RuleFor(i => i.FirstName, f => f.Name.FirstName())
-                .RuleFor(i => i.LastName, f => f.Name.LastName())
-                .RuleFor(i => i.Salary, f => (double)f.Random.Decimal(3000, 10000));
-
-            _studentFaker = new Faker<StudentType>()
-                .RuleFor(s => s.Id, f => Guid.NewGuid())
-                .RuleFor(s => s.FirstName, f => f.Name.FirstName())
-                .RuleFor(s => s.LastName, f => f.Name.LastName())
-                .RuleFor(s => s.GPA, f => Math.Round(f.Random.Double(0, 4), 2));
-            _courseFaker = new Faker<CourseType>()
-                .RuleFor(c => c.Id, f => Guid.NewGuid())
-                .RuleFor(c => c.Name, f => f.Company.CatchPhrase())
-                .RuleFor(c => c.Subject, f => f.PickRandom<Subject>())
-                .RuleFor(c => c.Instructor, f => _instructorFaker.Generate())
-                .RuleFor(c => c.Students, f => _studentFaker.Generate(f.Random.Int(3, 10)));
-
+            this.coursesRepository = coursesRepository;
         }
 
-        public IEnumerable<CourseType> GetCourses()
+        public async Task<IEnumerable<CourseDto>> GetCourses()
         {
             
-            return _courseFaker.Generate(10);
+            return await coursesRepository.GetCourses();
         }
-        public async Task<CourseType> GetCourseByIdAsync(Guid id)
+        public async Task<CourseDto> GetCourseByIdAsync(Guid id)
         {
-            await Task.Delay(1000);
-            CourseType course = _courseFaker.Generate();
-            course.Id = id;
-            return course;
+            return await coursesRepository.GetCourseByIdAsync(id);
 
         }
         [GraphQLDeprecated("this query is deprecated")]
