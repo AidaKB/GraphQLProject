@@ -19,7 +19,7 @@ namespace GraphQLDemo.Schema.Query
             
             return await coursesRepository.GetCourses();
         }
-        public async Task<CourseDto> GetCourseByIdAsync(Guid id)
+        public async Task<CourseDto?> GetCourseByIdAsync(Guid id)
         {
             return await coursesRepository.GetCourseByIdAsync(id);
 
