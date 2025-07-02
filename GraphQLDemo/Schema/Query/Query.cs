@@ -3,6 +3,7 @@ using GraphQLDemo.Services;
 using HotChocolate.Data;
 using HotChocolate;
 using GraphQLDemo.Schema.Filters;
+using GraphQLDemo.Schema.Sorters;
 
 
 namespace GraphQLDemo.Schema.Query
@@ -32,6 +33,7 @@ namespace GraphQLDemo.Schema.Query
         //[UseDbContext(typeof(SchoolDbContext))]
         [UsePaging(IncludeTotalCount = true, DefaultPageSize = 10)]
         [UseFiltering(typeof(CourseFilterType))]
+        [UseSorting(typeof(CourseSortType))]
         public IQueryable<CourseType> GetPaginatedCourses([Service] SchoolDbContext context)
         {
 
