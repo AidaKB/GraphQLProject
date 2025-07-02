@@ -1,4 +1,5 @@
-﻿using GraphQLDemo.Models;
+﻿using GraphQLDemo.DataLoaders;
+using GraphQLDemo.Models;
 using GraphQLDemo.Services.Instructors;
 
 namespace GraphQLDemo.Schema
@@ -11,9 +12,9 @@ namespace GraphQLDemo.Schema
         public Guid InstructorId { get; set; }
 
         [GraphQLNonNullType]
-        public async Task<InstructorType> Instructor([Service] InstructorsRepository instructorsRepository)
+        public async Task<InstructorType> Instructor([Service] InstructorDataLoader instructorDataLoader)
         {
-            var instructorDto = await instructorsRepository.GetInstructorByIdAsync(InstructorId);
+            var instructorDto = await instructorDataLoader.LoadAsync(InstructorId,CancellationToken.None);
 
             return new InstructorType
             {

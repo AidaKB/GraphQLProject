@@ -19,5 +19,12 @@ namespace GraphQLDemo.Services.Instructors
                 return await context.Instructors.FirstOrDefaultAsync(c => c.Id == id);
             }
         }
+        public async Task<IEnumerable<InstructorDto>> GetManyByIds(IReadOnlyList<Guid> ids)
+        {
+            using (var context = contextFactory.CreateDbContext())
+            {
+                return await context.Instructors.Where(i => ids.Contains(i.Id)).ToListAsync();
+            }
+        }
     }
 }

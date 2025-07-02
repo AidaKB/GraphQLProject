@@ -1,7 +1,8 @@
-﻿using Bogus;
-using GraphQLDemo.DTOs;
-using GraphQLDemo.Models;
-using GraphQLDemo.Services.Courses;
+﻿using GraphQLDemo.Services.Courses;
+using GraphQLDemo.Services;
+using HotChocolate.Data;
+using HotChocolate;
+
 
 namespace GraphQLDemo.Schema.Query
 {
@@ -14,6 +15,7 @@ namespace GraphQLDemo.Schema.Query
             this.coursesRepository = coursesRepository;
         }
 
+        [UsePaging(IncludeTotalCount = true,DefaultPageSize =10 )]
         public async Task<IEnumerable<CourseType>> GetCourses()
         {
             
@@ -26,6 +28,21 @@ namespace GraphQLDemo.Schema.Query
                 InstructorId = c.InstructorId
             });
         }
+
+        //[UseDbContext(typeof(SchoolDbContext))]
+        [UsePaging(IncludeTotalCount = true, DefaultPageSize = 10)]
+        public async Task<IEnumerable<CourseType>> GetPaginatedCourses([Service] SchoolDbContext context)
+        {
+
+            return context.Courses.Select(c => new CourseType
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Subject = c.Subject,
+                InstructorId = c.InstructorId
+            });
+        }
+
         public async Task<CourseType?> GetCourseByIdAsync(Guid id)
         {
             
