@@ -14,14 +14,36 @@ namespace GraphQLDemo.Schema.Query
             this.coursesRepository = coursesRepository;
         }
 
-        public async Task<IEnumerable<CourseDto>> GetCourses()
+        public async Task<IEnumerable<CourseType>> GetCourses()
         {
             
-            return await coursesRepository.GetCourses();
+            var coursesDto =  await coursesRepository.GetCourses();
+            return coursesDto.Select(c => new CourseType
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Subject = c.Subject,
+                InstructorId = c.InstructorId
+            });
         }
-        public async Task<CourseDto?> GetCourseByIdAsync(Guid id)
+        public async Task<CourseType?> GetCourseByIdAsync(Guid id)
         {
-            return await coursesRepository.GetCourseByIdAsync(id);
+            
+            var courseDto = await coursesRepository.GetCourseByIdAsync(id);
+            if (courseDto != null)
+            {
+                return new CourseType
+                {
+                    Id = courseDto.Id,
+                    Name = courseDto.Name,
+                    Subject = courseDto.Subject,
+                    InstructorId = courseDto.InstructorId
+
+                };
+            }
+            else
+            {                 return null;
+            }   
 
         }
         [GraphQLDeprecated("this query is deprecated")]
