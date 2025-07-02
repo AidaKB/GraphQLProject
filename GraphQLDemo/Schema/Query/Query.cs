@@ -2,6 +2,7 @@
 using GraphQLDemo.Services;
 using HotChocolate.Data;
 using HotChocolate;
+using GraphQLDemo.Schema.Filters;
 
 
 namespace GraphQLDemo.Schema.Query
@@ -15,7 +16,6 @@ namespace GraphQLDemo.Schema.Query
             this.coursesRepository = coursesRepository;
         }
 
-        [UsePaging(IncludeTotalCount = true,DefaultPageSize =10 )]
         public async Task<IEnumerable<CourseType>> GetCourses()
         {
             
@@ -31,7 +31,8 @@ namespace GraphQLDemo.Schema.Query
 
         //[UseDbContext(typeof(SchoolDbContext))]
         [UsePaging(IncludeTotalCount = true, DefaultPageSize = 10)]
-        public async Task<IEnumerable<CourseType>> GetPaginatedCourses([Service] SchoolDbContext context)
+        [UseFiltering(typeof(CourseFilterType))]
+        public IQueryable<CourseType> GetPaginatedCourses([Service] SchoolDbContext context)
         {
 
             return context.Courses.Select(c => new CourseType

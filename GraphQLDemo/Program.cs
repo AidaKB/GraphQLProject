@@ -14,7 +14,8 @@ builder.Services.AddGraphQLServer()
    .AddQueryType<Query>()
    .AddMutationType<Mutation>()
    .AddSubscriptionType<Subscription>()
-   .AddInMemorySubscriptions();
+   .AddInMemorySubscriptions()
+   .AddFiltering();
 
 string connectionString = builder.Configuration.GetConnectionString("default");
 
