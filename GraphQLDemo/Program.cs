@@ -16,7 +16,8 @@ builder.Services.AddGraphQLServer()
    .AddSubscriptionType<Subscription>()
    .AddInMemorySubscriptions()
    .AddFiltering()
-   .AddSorting();
+   .AddSorting()
+   .AddProjections();
 
 string connectionString = builder.Configuration.GetConnectionString("default");
 
