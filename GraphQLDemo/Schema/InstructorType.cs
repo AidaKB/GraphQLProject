@@ -1,6 +1,8 @@
-﻿namespace GraphQLDemo.Schema
+﻿using GraphQLDemo.Schema.Query;
+
+namespace GraphQLDemo.Schema
 {
-    public class InstructorType
+    public class InstructorType: ISearchResultType
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

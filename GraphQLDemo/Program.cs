@@ -2,6 +2,7 @@ using FirebaseAdmin;
 using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 using FirebaseAdminAuthentication.DependencyInjection.Models;
 using GraphQLDemo.DataLoaders;
+using GraphQLDemo.Schema;
 using GraphQLDemo.Schema.Mutation;
 using GraphQLDemo.Schema.Query;
 using GraphQLDemo.Schema.Subscription;
@@ -18,6 +19,8 @@ builder.Services.AddGraphQLServer()
    .AddMutationType<Mutation>()
    .AddSubscriptionType<Subscription>()
    .AddInMemorySubscriptions()
+   .AddType<CourseType>()
+   .AddType<InstructorType>()
    .AddFiltering()
    .AddSorting()
    .AddProjections()

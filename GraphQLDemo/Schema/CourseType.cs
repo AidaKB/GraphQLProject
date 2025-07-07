@@ -1,11 +1,12 @@
 ﻿using FirebaseAdmin.Auth;
 using GraphQLDemo.DataLoaders;
 using GraphQLDemo.Models;
+using GraphQLDemo.Schema.Query;
 using GraphQLDemo.Services.Instructors;
 
 namespace GraphQLDemo.Schema
 {
-    public class CourseType
+    public class CourseType: ISearchResultType
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

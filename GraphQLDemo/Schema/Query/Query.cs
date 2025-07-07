@@ -1,9 +1,10 @@
-﻿using GraphQLDemo.Services.Courses;
-using GraphQLDemo.Services;
-using HotChocolate.Data;
-using HotChocolate;
-using GraphQLDemo.Schema.Filters;
+﻿using GraphQLDemo.Schema.Filters;
 using GraphQLDemo.Schema.Sorters;
+using GraphQLDemo.Services;
+using GraphQLDemo.Services.Courses;
+using HotChocolate;
+using HotChocolate.Data;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace GraphQLDemo.Schema.Query
@@ -64,9 +65,40 @@ namespace GraphQLDemo.Schema.Query
                 };
             }
             else
-            {                 return null;
+            { 
+                return null;
             }   
 
+        }
+
+        public async Task<IEnumerable<ISearchResultType>> Search(string term, [Service] SchoolDbContext context)
+        {
+            var courses = (await context.Courses
+                .Where(c => c.Name.Contains(term))
+                .ToListAsync())
+                .Select(c => new CourseType
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Subject = c.Subject,
+                    InstructorId = c.InstructorId,
+                    CreatorId = c.CreatorId
+                });
+
+            var instructors = (await context.Instructors
+                .Where(i => i.FirstName.Contains(term) || i.LastName.Contains(term))
+                .ToListAsync())
+                .Select(i => new InstructorType
+                {
+                    Id = i.Id,
+                    FirstName = i.FirstName,
+                    LastName = i.LastName,
+                    Salary = i.Salary
+                });
+
+            return new List<ISearchResultType>()
+                .Concat(courses)
+                .Concat(instructors);
         }
         [GraphQLDeprecated("this query is deprecated")]
         public string Instruction => "Use the GraphQL endpoint to query data. For example, you can query for a list of users or a specific user by ID.";
