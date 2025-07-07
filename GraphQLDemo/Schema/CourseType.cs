@@ -1,4 +1,5 @@
-﻿using GraphQLDemo.DataLoaders;
+﻿using FirebaseAdmin.Auth;
+using GraphQLDemo.DataLoaders;
 using GraphQLDemo.Models;
 using GraphQLDemo.Services.Instructors;
 
@@ -11,6 +12,9 @@ namespace GraphQLDemo.Schema
         public Subject Subject { get; set; }
         [IsProjected(true)]
         public Guid InstructorId { get; set; }
+
+        [IsProjected(true)]
+        public string? CreatorId { get; set; }
 
         [GraphQLNonNullType]
         public async Task<InstructorType> Instructor([Service] InstructorDataLoader instructorDataLoader)
@@ -29,6 +33,14 @@ namespace GraphQLDemo.Schema
         public string Description()
         {
             return $"{Name} is a course that the subject of that is {Subject}";
+        }
+        public async Task<UserType?> Creator([Service] UserDataLoader userDataLoader)
+        {
+            if (string.IsNullOrEmpty(CreatorId))
+                return null;
+
+            return await userDataLoader.LoadAsync(CreatorId, CancellationToken.None);
+
         }
 
     }

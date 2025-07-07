@@ -43,7 +43,8 @@ namespace GraphQLDemo.Schema.Query
                 Id = c.Id,
                 Name = c.Name,
                 Subject = c.Subject,
-                InstructorId = c.InstructorId
+                InstructorId = c.InstructorId,
+                CreatorId = c.CreatorId
             });
         }
 
@@ -58,8 +59,8 @@ namespace GraphQLDemo.Schema.Query
                     Id = courseDto.Id,
                     Name = courseDto.Name,
                     Subject = courseDto.Subject,
-                    InstructorId = courseDto.InstructorId
-
+                    InstructorId = courseDto.InstructorId,
+                    CreatorId = courseDto.CreatorId
                 };
             }
             else

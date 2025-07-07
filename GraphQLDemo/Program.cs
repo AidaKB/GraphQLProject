@@ -38,6 +38,8 @@ builder.Services.AddScoped<CoursesRepository>();
 builder.Services.AddScoped<InstructorsRepository>();
 builder.Services.AddScoped<InstructorDataLoader>();
 builder.Services.AddScoped<SchoolDbContext>();
+builder.Services.AddScoped<UserDataLoader>();
+
 
 
 var app = builder.Build();
